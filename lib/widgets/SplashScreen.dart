@@ -1,6 +1,9 @@
+import 'package:barber_app/auth/authservices.dart';
 import 'package:barber_app/utils/constants.dart';
 import 'package:barber_app/widgets/button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:slider_button/slider_button.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -78,9 +81,8 @@ class SplashScreen extends StatelessWidget {
                   height: 50,
                   width: width * .8,
                   child: SliderButton(
-                      action: () {
-                        ///Do something here
-                        // Navigator.of(context).pop();
+                      action: () async {
+                        AuthServices.signinWithGoogle(context);
                       },
                       alignLabel: Alignment.center,
                       shimmer: false,

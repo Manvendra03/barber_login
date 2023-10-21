@@ -1,9 +1,11 @@
+import 'package:barber_app/auth/authservices.dart';
 import 'package:barber_app/widgets/HomeScreen.dart';
 import 'package:barber_app/widgets/button.dart';
 import 'package:barber_app/widgets/custom_textfield.dart';
 import 'package:barber_app/widgets/helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({
@@ -16,9 +18,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController emailController = TextEditingController();
-
   late TextEditingController passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool flag = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -107,34 +109,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   LoginButton(
                       tittle: "Login",
                       action: () async {
-                        String emailAddress = emailController.text;
-                        String password = passwordController.text;
-
-                        // showToast();
-                        try {
-                          final cread = await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
-                                  email: emailAddress, password: password);
-                          showToast("Login Sucessful");
-                          //
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => const HomeScreen()),
-                          // );
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            if (context.mounted) {
-                              Navigator.pushNamed(context, '/home');
-                              print("Popedd");
-                            }
-                          });
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'user-not-found') {
-                            showToast("User Not Found ");
-                          } else if (e.code == 'wrong-password') {
-                            showToast("wrong credentials ");
-                          } else {
-                            showToast("Invalid Login credentials ");
+                        print("workingggg ...");
+                        if (!flag) {
+                          flag = true;
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            await AuthServices.signinUser(emailController.text,
+                                passwordController.text, context);
+                            flag = false;
                           }
                         }
                       })

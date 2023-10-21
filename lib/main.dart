@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => SplashScreen(height: height, width: width),
-        '/home': (context) => const HomeScreen(),
+        '/home': (context) => HomeScreen(),
         // When navigating to the "/second" route, build the SecondScreen widget.
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),

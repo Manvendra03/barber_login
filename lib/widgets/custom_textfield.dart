@@ -15,9 +15,18 @@ class CustomTextFeild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter some text';
+        } else if (tittle == 'Password' && value.length < 6) {
+          return 'password must be greater than 6 ';
+        }
+        return null;
+      },
       controller: tx_controller,
-      obscureText: tittle == 'password',
+      obscureText: tittle == 'Password' || tittle == 'password',
       cursorColor: Colors.black,
       decoration: InputDecoration(
         contentPadding:
